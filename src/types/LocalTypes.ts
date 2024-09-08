@@ -1,4 +1,4 @@
-import { User, UserWithNoPassword } from '@sharedTypes/DBTypes';
+import { UserWithNoPassword } from '@sharedTypes/DBTypes';
 
 type AuthContextType = {
   user: UserWithNoPassword | null;
@@ -9,8 +9,8 @@ type AuthContextType = {
   handleRegister: (user: UserWithNoPassword) => void;
 };
 
-type TwoFAUser = User & { code?: string };
+// type TwoFAUser = User & { code?: string };
 
-type Credentials = Pick<TwoFAUser, 'email' | 'code'>;
+// type Credentials = Pick<TwoFAUser, 'email' | 'code'>;
 
-export type { AuthContextType, Credentials };
+export type { AuthContextType };

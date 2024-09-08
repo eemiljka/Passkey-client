@@ -1,5 +1,5 @@
-import { useUserContext } from '@/hooks/contextHooks';
-import { Link, Outlet } from 'react-router-dom';
+import { useUserContext } from "@/hooks/contextHooks";
+import { Link, Outlet } from "react-router-dom";
 
 const Layout = () => {
   const { user, handleAutoLogin } = useUserContext();

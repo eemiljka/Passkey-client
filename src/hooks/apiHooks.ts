@@ -1,5 +1,8 @@
 import fetchData from '@/lib/fetchData';
+import { UserWithNoPassword } from '@sharedTypes/DBTypes';
 import { LoginResponse, UserResponse } from '@sharedTypes/MessageTypes';
+import { startRegistration } from '@simplewebauthn/browser';
+import { PublicKeyCredentialCreationOptionsJSON } from '@simplewebauthn/types';
 // TODO: add imports for WebAuthn functions
 
 const useUser = () => {
@@ -31,15 +34,45 @@ const useUser = () => {
   return { getUserByToken, getUsernameAvailable, getEmailAvailable };
 };
 
-// TODO: Define usePasskey hook
+// Define usePasskey hook
 const usePasskey = () => {
-  // TODO: Define postUser function
-  const postUser = async (user) => {
-    // TODO: Set up request options
-    // TODO: Fetch setup response
-    // TODO: Start registration process
-    // TODO: Prepare data for verification
-    // TODO: Fetch and return verification response
+  // Define postUser function
+  const postUser = async (user: UserWithNoPassword) => {
+    // Set up request options
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    };
+
+    // Fetch setup response
+    const registrationResponse = await fetchData<{
+      email: string;
+      options: PublicKeyCredentialCreationOptionsJSON;
+    }>(import.meta.env.VITE_PASSKEY_API + '/auth/setup', options);
+
+    console.log(registrationResponse);
+    // Start registration process
+    const attResp = await startRegistration(registrationResponse.options);
+
+    // Prepare data for verification
+    const data = {
+      email: registrationResponse.email,
+      registrationOptions: attResp,
+    };
+    // Fetch and return verification response
+    return await fetchData<UserResponse>(
+      import.meta.env.VITE_PASSKEY_API + '/auth/verify',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      },
+    );
   };
 
   // TODO: Define postLogin function

@@ -8,7 +8,6 @@ const fetchData = async <T>(
   const response = await fetch(url, options);
   const json = await response.json();
   if (!response.ok) {
-    // kokeile joskus: throw response;
     const errorJson = json as unknown as ErrorResponse;
     console.log('errorJson', errorJson);
     if (errorJson.message) {

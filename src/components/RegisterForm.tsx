@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { usePasskey, useUser } from '@/hooks/apiHooks';
-import { useState } from 'react';
-import { useForm } from '@/hooks/formHooks';
-import { useUserContext } from '@/hooks/contextHooks';
+import { Button } from "@/components/ui/button";
+import { CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { usePasskey, useUser } from "@/hooks/apiHooks";
+import { useState } from "react";
+import { useForm } from "@/hooks/formHooks";
+import { useUserContext } from "@/hooks/contextHooks";
 
 const RegisterForm = (props: { switchForm: () => void }) => {
   const { postUser } = usePasskey();
@@ -13,7 +13,7 @@ const RegisterForm = (props: { switchForm: () => void }) => {
   const [emailAvailable, setEmailAvailable] = useState<boolean>(true);
   const { handleRegister } = useUserContext();
 
-  const initValues = { username: '', password: '', email: '' };
+  const initValues = { username: "", password: "", email: "" };
 
   const doRegister = async () => {
     try {
@@ -30,12 +30,12 @@ const RegisterForm = (props: { switchForm: () => void }) => {
 
   const { handleSubmit, handleInputChange, inputs } = useForm(
     doRegister,
-    initValues,
+    initValues
   );
   const { getUsernameAvailable, getEmailAvailable } = useUser();
 
   const handleUsernameBlur = async (
-    event: React.SyntheticEvent<HTMLInputElement>,
+    event: React.SyntheticEvent<HTMLInputElement>
   ) => {
     const result = await getUsernameAvailable(event.currentTarget.value);
     setUsernameAvailable(result.available);
